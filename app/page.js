@@ -9,7 +9,7 @@ export default function Page() {
         src={bg}
         alt="Mountains and forests with two cabins"
         fill
-        quality={80}
+        quality={100}
         placeholder="blur"
         className="object-cover object-top"
       />
