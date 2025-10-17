@@ -1,12 +1,13 @@
-import RoomCard from "../_components/RoomCard";
+import { Suspense } from "react";
+import RoomList from "../_components/RoomList";
+import Spinner from "../_components/Spinner";
 
 export const metadata = {
   title: "Rooms",
 };
 
-export default function Page() {
+export default async function Page() {
   // CHANGE
-  const rooms = [];
 
   return (
     <div>
@@ -22,13 +23,9 @@ export default function Page() {
         Welcome to paradise.
       </p>
 
-      {rooms.length > 0 && (
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
-          {rooms.map((room) => (
-            <RoomCard room={room} key={room.id} />
-          ))}
-        </div>
-      )}
+      <Suspense fallback={<Spinner />}>
+        <RoomList />
+      </Suspense>
     </div>
   );
 }
