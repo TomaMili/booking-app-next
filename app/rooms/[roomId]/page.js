@@ -1,16 +1,26 @@
-import { getRoom } from "@/app/_lib/data-service";
+import TextExpander from "@/app/_components/TextExpander";
+import { getRoom, getRooms } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
 export async function generateMetadata({ params }) {
-  const { name } = await getRoom(params.roomId);
+  const resolvedParams = await params;
+  const { name } = await getRoom(resolvedParams.roomId);
   return { title: `Room ${name}` };
 }
 
-export default async function Page({ params }) {
-  const room = await getRoom(params.roomId);
+export async function generateStaticParams() {
+  const rooms = await getRooms();
+  const ids = rooms.map((room) => ({ roomId: String(room.id) }));
 
-  const { id, name, capacity, price, discount, image, description } = room;
+  return ids;
+}
+
+export default async function Page({ params }) {
+  const resolvedParams = await params;
+  const room = await getRoom(resolvedParams.roomId);
+
+  const { id, name, capacity, price, discount, image, desc } = room;
 
   return (
     <div className="max-w-4xl px-20 mx-auto mt-8">
@@ -24,7 +34,9 @@ export default async function Page({ params }) {
             Cabin {name}
           </h3>
 
-          <p className="text-lg text-primary-300 mb-10">{description}</p>
+          <p className="text-lg text-primary-300 mb-10">
+            <TextExpander>{desc}</TextExpander>
+          </p>
 
           <ul className="flex flex-col gap-4 mb-7">
             <li className="flex gap-3 items-center">
