@@ -26,7 +26,7 @@ function DateSelector({ settings, room, bookedDates }) {
   const { minBookingLength, maxBookingLength } = bookedDates;
 
   return (
-    <div className="flex flex-col justify-between">
+    <div className="flex flex-col justify-between border-1 border-primary-900 pt-10">
       <DayPicker
         className="place-self-center cursor-pointer"
         mode="range"
